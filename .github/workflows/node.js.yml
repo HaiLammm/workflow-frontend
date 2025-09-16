@@ -28,5 +28,5 @@ jobs:
         push: true
         tags: <dockerhub-username>/nextjs-app:latest
         registry: docker.io
-        username: ${{ secrets.luonghailam }}
-        password: ${{ secrets.dckr_pat_kAZ61QO7rMO_QAiEyaFPRwOAQ-w }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
