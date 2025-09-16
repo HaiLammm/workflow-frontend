@@ -1,7 +1,6 @@
 import React from "react";
 import SearchSection from "@/components/ui/client/home/SearchSection";
 import JobsSection from "@/components/ui/client/home/JobsSection";
-import CompaniesSection from "@/components/ui/client/home/CompaniesSection";
 
 
 const HomePage = () => {
