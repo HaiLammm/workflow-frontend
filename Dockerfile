@@ -1,20 +1,23 @@
-# Stage 1: Build
-FROM node:20-alpine AS builder
-RUN npm install -g pnpm
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
-COPY . .
-RUN pnpm run build
-
-# Stage 2: Run
+# Sử dụng Node.js image chính thức
 FROM node:20-alpine
-RUN npm install -g pnpm
+
+# Thiết lập thư mục làm việc
 WORKDIR /app
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
-RUN pnpm install --prod --frozen-lockfile
-EXPOSE 8080
-CMD ["pnpm", "run", "start"]
+
+# Sao chép package.json và lock file
+COPY package*.json ./
+
+# Cài đặt dependencies
+RUN npm install
+
+# Sao chép toàn bộ mã nguồn
+COPY . .
+
+# Build ứng dụng Next.js
+RUN npm run build
+
+# Expose cổng (mặc định của Next.js)
+EXPOSE 3000
+
+# Chạy ứng dụng
+CMD ["npm", "start"]

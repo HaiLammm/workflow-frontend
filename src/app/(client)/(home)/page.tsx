@@ -10,7 +10,6 @@ const HomePage = () => {
       <div className="w-[1520px] mx-auto">
         <SearchSection />
         <JobsSection />
-        <CompaniesSection />
 
 </div>
     </>
