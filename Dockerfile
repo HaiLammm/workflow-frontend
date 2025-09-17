@@ -1,23 +1,23 @@
-# Sử dụng Node.js image chính thức
-FROM node:20-alpine
-
-# Thiết lập thư mục làm việc
+# Build stage
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Sao chép package.json và lock file
 COPY package*.json ./
-
-# Cài đặt dependencies
 RUN npm install
 
-# Sao chép toàn bộ mã nguồn
 COPY . .
-
-# Build ứng dụng NestJS
 RUN npm run build
 
-# Expose cổng (mặc định của NestJS)
-EXPOSE 3000
+# Run stage
+FROM node:20-alpine
+WORKDIR /app
 
-# Chạy ứng dụng
-CMD ["npm", "run", "start:prod"]
+COPY --from=builder /app/package*.json ./
+RUN npm install --production
+
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+
+EXPOSE 3000
+CMD ["npm", "run", "start"]
+
